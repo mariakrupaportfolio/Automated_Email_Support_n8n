@@ -1,8 +1,7 @@
 # AI Customer Support Automation with n8n
 
 Two n8n workflows that work together to handle a customer support inbox. One drafts replies to new emails using AI. The other sends a daily report on what customers are asking about.
-The example shows fake event information and contact details due to GDPR. 
-
+All event details and email addresses in the examples are fictional, for privacy reasons.
 ## Workflows
 
 ### 1. Support Email Reply Drafter
@@ -82,7 +81,7 @@ Email response saved as a draft, ready for human correction;
 
 <img width="2159" height="323" alt="Screenshot 2026-10-16 141419" src="https://github.com/user-attachments/assets/4d8a7af2-fb77-47b1-a02d-8ebe9fbb39e8" />
 
-At the start of the day, the email recveives a summary of the last 24 hours of inquiries with semantic analysis and short summaries;
+Every morning at 8am, the email receives a summary of the last 24 hours of inquiries with sentiment analysis and short summaries;
 
 <img width="1361" height="391" alt="Screenshot 2026-10-16 122939" src="https://github.com/user-attachments/assets/cef5157b-30c1-43fc-ab6e-7f4dc409b46a" />
 
