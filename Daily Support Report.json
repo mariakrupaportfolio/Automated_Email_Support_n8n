@@ -1,0 +1,213 @@
+{
+  "name": "Daily Support Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "236a6bc7-98b2-499c-9607-7d83f3ef7e1c",
+      "name": "Every Day at 8:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "5iD0ZTzd8yLAuu5y",
+          "cachedResultName": "Support Enquiry Log"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "received_at",
+              "condition": "gte",
+              "keyValue": "={{ $now.minus({ hours: 24 }).toISO() }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "id": "19f46309-0e99-4b41-9de7-2d2ba9d3b8d4",
+      "name": "Get Last 24h Enquiries",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        112
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map(i => i.json).filter(r => r && r.topic);\nconst sentiments = { positive: 0, neutral: 0, negative: 0 };\nconst topics = {};\nfor (const r of rows) {\n  const s = String(r.sentiment || 'neutral').toLowerCase();\n  sentiments[s in sentiments ? s : 'neutral']++;\n  const t = r.topic || 'Other';\n  if (!topics[t]) topics[t] = { count: 0, negative: 0 };\n  topics[t].count++;\n  if (s === 'negative') topics[t].negative++;\n}\nconst topicLines = Object.entries(topics).sort((a, b) => b[1].count - a[1].count)\n  .map(([t, v]) => '- ' + t + ': ' + v.count + (v.negative ? ' (' + v.negative + ' negative)' : '')).join('\\n');\nconst details = rows.map(r => '- [' + r.sentiment + '] ' + r.topic + ' | ' + r.subject + ' | ' + r.summary).join('\\n');\nreturn [{ json: { total: rows.length, sentiments, topicLines: topicLines || '(none)', details: details || '(no enquiries)' } }];"
+      },
+      "id": "44860f09-db91-42be-b1ff-f7af92ef002d",
+      "name": "Build Stats",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Customer support enquiries from the last 24 hours.\n\nTotal: {{ $json.total }}\nSentiment: positive {{ $json.sentiments.positive }}, neutral {{ $json.sentiments.neutral }}, negative {{ $json.sentiments.negative }}\n\nBy topic:\n{{ $json.topicLines }}\n\nIndividual enquiries:\n{{ $json.details }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You write a short daily customer-support report in English as simple HTML (use <h3>, <p>, <ul>, <li>, <b> only). Sections: 1) Overview - total enquiries and the sentiment split (positive / neutral / negative). 2) Main enquiries - the top topics with counts and what people were asking. 3) Issues to watch - recurring problems and anything negative, with a one-line suggestion each (e.g. add the answer to the FAQ doc). If total is 0, just say there were no customer enquiries in the last 24 hours. Use only the data given. Output only the HTML."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "id": "acff6de5-07c7-405d-b399-1988caa948ee",
+      "name": "Write Report",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        672,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5.4-mini",
+          "cachedResultName": "gpt-5.4-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "fe775e6e-10ff-4eef-bffd-be96fd608935",
+      "name": "Report Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        752,
+        336
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "Gateway credits",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "you@example.com",
+        "subject": "=Daily support report - {{ $now.toFormat(\"d LLL yyyy\") }}",
+        "message": "={{ $json.text.replace(/^```(html)?/i, \"\").replace(/```$/, \"\").trim() }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "7c1bfbbc-e5f0-4575-a462-6d44d88a0172",
+      "name": "Email Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        112
+      ],
+      "webhookId": "ae1d9220-b2dc-4242-b1ba-d6665ced8ee6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "iIZbeXXimlVT4bP9",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Every Day at 8:00": {
+      "main": [
+        [
+          {
+            "node": "Get Last 24h Enquiries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Last 24h Enquiries": {
+      "main": [
+        [
+          {
+            "node": "Build Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Stats": {
+      "main": [
+        [
+          {
+            "node": "Write Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Report": {
+      "main": [
+        [
+          {
+            "node": "Email Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Report Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Write Report",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timezone": "Europe/Copenhagen"
+  },
+  "versionId": "f4865e71-145a-4b8a-97d1-1e2a6b0dedb6",
+  "meta": {
+    "instanceId": "c49efbcbeb89fc38ea5ff100e0b580a78653d0722b7597b9edf2f3230b6ccbb7"
+  },
+  "nodeGroups": [],
+  "id": "K4KdS1PkrG3EIwwn",
+  "tags": []
+}
