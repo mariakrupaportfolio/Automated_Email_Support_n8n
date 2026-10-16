@@ -30,7 +30,7 @@ New Support Email (Gmail trigger)
 - **Analytics:** each enquiry gets a topic, a sentiment and a one-line summary, and is logged to a Data Table.
 
 
-<img width="1643" height="709" alt="Screenshot 2026-10-16 112536" src="https://github.com/user-attachments/assets/0253c50c-d9c9-4a1c-b2b0-3b311fab2517" />
+<img width="1998" height="1151" alt="Screenshot 2026-10-16 131813" src="https://github.com/user-attachments/assets/e88dbdcc-2eca-43aa-b795-080d9eca30d4" />
 
 
 
