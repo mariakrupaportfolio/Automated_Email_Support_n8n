@@ -5,6 +5,9 @@ The example shows fake event information and contact details due to GDPR.
 
 ## Workflows
 
+<img width="1998" height="1151" alt="Screenshot 2026-10-16 131813" src="https://github.com/user-attachments/assets/e88dbdcc-2eca-43aa-b795-080d9eca30d4" />
+
+
 ### 1. Support Email Reply Drafter
 
 Runs every minute and checks Gmail for new unread emails.
@@ -30,7 +33,7 @@ New Support Email (Gmail trigger)
 - **Analytics:** each enquiry gets a topic, a sentiment and a one-line summary, and is logged to a Data Table.
 
 
-<img width="1998" height="1151" alt="Screenshot 2026-10-16 131813" src="https://github.com/user-attachments/assets/e88dbdcc-2eca-43aa-b795-080d9eca30d4" />
+<img width="1643" height="709" alt="Screenshot 2026-10-16 112536" src="https://github.com/user-attachments/assets/89450e5a-7dcc-4a21-b715-54130709185e" />
 
 
 
@@ -52,7 +55,7 @@ It gathers the last 24 hours of logged enquiries and counts them by sentiment an
 - **OpenAI** `gpt-5.4-mini` as the model
 
 
-<img width="1711" height="1233" alt="Screenshot 2026-10-16 124238" src="https://github.com/user-attachments/assets/b6b32906-9425-433b-a59e-8290d0fdcf92" />
+<img width="1711" height="1233" alt="Screenshot 2026-10-16 124238" src="https://github.com/user-attachments/assets/6d51c64c-55d1-4360-927c-5c2120783ca6" />
 
 
 ## Setup
@@ -80,10 +83,10 @@ It gathers the last 24 hours of logged enquiries and counts them by sentiment an
 
 Email response saved as a draft, ready for human correction; 
 
-<img width="2159" height="323" alt="Screenshot 2026-10-16 141419" src="https://github.com/user-attachments/assets/08f296cb-3877-41b9-bc7f-f705961ef4ed" />
+<img width="2159" height="323" alt="Screenshot 2026-10-16 141419" src="https://github.com/user-attachments/assets/4d8a7af2-fb77-47b1-a02d-8ebe9fbb39e8" />
 
 At the start of the day, the email recveives a summary of the last 24 hours of inquiries with semantic analysis and short summaries;
 
-<img width="1361" height="391" alt="Screenshot 2026-10-16 122939" src="https://github.com/user-attachments/assets/b4eea461-3ccd-4e5f-a18f-f47c2122752a" />
+<img width="1361" height="391" alt="Screenshot 2026-10-16 122939" src="https://github.com/user-attachments/assets/cef5157b-30c1-43fc-ab6e-7f4dc409b46a" />
 
 
