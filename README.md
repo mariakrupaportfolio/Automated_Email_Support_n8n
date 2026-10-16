@@ -5,9 +5,6 @@ The example shows fake event information and contact details due to GDPR.
 
 ## Workflows
 
-<img width="1998" height="1151" alt="Screenshot 2026-10-16 131813" src="https://github.com/user-attachments/assets/e88dbdcc-2eca-43aa-b795-080d9eca30d4" />
-
-
 ### 1. Support Email Reply Drafter
 
 Runs every minute and checks Gmail for new unread emails.
@@ -75,7 +72,7 @@ It gathers the last 24 hours of logged enquiries and counts them by sentiment an
 
 
 
-<img width="1998" height="1151" alt="Screenshot 2026-10-16 131813" src="https://github.com/user-attachments/assets/0489a512-fa7f-4bc2-ad9b-205159796d38" />
+<img width="1998" height="1151" alt="Screenshot 2026-10-16 131813" src="https://github.com/user-attachments/assets/e88dbdcc-2eca-43aa-b795-080d9eca30d4" />
 
 
 
